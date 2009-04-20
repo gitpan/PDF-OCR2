@@ -7,7 +7,7 @@ __PACKAGE__->make_accessor_setget('errstr');
 __PACKAGE__->make_count_for('abs_images');
 __PACKAGE__->make_accessor_setget_ondisk_file( 'abs_pdf' );
 use Carp;
-$VERSION = sprintf "%d.%02d", q$Revision: 1.2 $ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.10 $ =~ /(\d+)/g;
 
 # so it will crash if no abs pdf is passed, or is not on disk
 sub init { 
@@ -18,9 +18,6 @@ sub init {
    ) if $CHECK_PDF;
 
 }
-
-
-
 
 
 

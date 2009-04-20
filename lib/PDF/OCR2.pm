@@ -6,10 +6,9 @@ use Carp;
 use vars qw($VERSION $DEBUG @TRASH $CHECK_PDF $NO_TRASH_CLEANUP);
 __PACKAGE__->make_accessor_setget( 'abs_path', );
 __PACKAGE__->make_count_for( '_abs_bursts' );
-$VERSION = sprintf "%d.%02d", q$Revision: 1.11 $ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.12 $ =~ /(\d+)/g;
 
 sub debug { $DEBUG or return 1; print STDERR  __PACKAGE__." DEBUG : @_\n"; 1 }
-
 
 sub new {
    my($class,$arg) = @_;
