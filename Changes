@@ -1,0 +1,31 @@
+2009-04-20 10:46  cvs
+
+	* lib/PDF/OCR2.pm: added documentation, if PDF::API2 fails on  a
+	  pdf saying it is corrupt, how to tell the code to use CAM::PDF
+	  instead
+
+2009-04-20 10:42  cvs
+
+	* t/: 91_long_nguyen_problemfile.t,
+	  problemdocs/long_nguyen_problemfile.pdf: added problem file by
+	  long nguyen
+
+2009-01-06 11:08  cvs
+
+	* lib/PDF/OCR2.pm: made so if you cant instance page object,
+	  properly tells so
+
+2008-09-24 15:21  cvs
+
+	* MANIFEST, Makefile.PL, t/88_PDF-OCR2-Page.t, t/89_PDF-OCR2.t,
+	  t/99_cleanup.t, t/leodocs/SFX6D.pdf,
+	  t/leodocs/blackhawk-receipt.pdf, t/leodocs/file1.pdf,
+	  t/leodocs/frakemmet.pdf, t/leodocs/hdreceipt.pdf,
+	  t/leodocs/led.pdf, t/leodocs/magscans.pdf,
+	  t/leodocs/paycheck.pdf, t/leodocs/tuition.pdf, lib/PDF/OCR2.pm,
+	  lib/PDF/OCR2/Page.pm, t/leodocs/dev.dyer/file1.pdf,
+	  t/leodocs/dev.dyer/file1ap.pdf, t/leodocs/dev.dyer/file2.pdf,
+	  t/leodocs/dev.dyer/file2ap.pdf, t/leodocs/dev.dyer/file3.pdf,
+	  t/leodocs/dev.dyer/file4.pdf, t/leodocs/dev.dyer/file5ap.pdf:
+	  Initial revision
+

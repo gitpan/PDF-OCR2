@@ -7,7 +7,7 @@ __PACKAGE__->make_accessor_setget('errstr');
 __PACKAGE__->make_count_for('abs_images');
 __PACKAGE__->make_accessor_setget_ondisk_file( 'abs_pdf' );
 use Carp;
-$VERSION = sprintf "%d.%02d", q$Revision: 1.9 $ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.2 $ =~ /(\d+)/g;
 
 # so it will crash if no abs pdf is passed, or is not on disk
 sub init { 
@@ -28,11 +28,15 @@ sub abs_images {
    my $self = shift;
    unless( $self->{abs_images} ){
       my $abs = $self->abs_pdf;
+
+      debug("calling PDF::GetImages for '$abs'.. ");
       require PDF::GetImages;
       my $images = PDF::GetImages::pdfimages($abs);
-      $self->stderr("no images in $abs") unless $images and scalar @$images;
-      $self->{abs_images} = $images || [];
-      debug("DEBUG ON");
+      defined $images or $self->errsrt("PDF::GetImages::pdfimages($abs) does not return.");
+      scalar @$images or $self->errstr("PDF::GetImages::pdfimages($abs) does not return values.. no images?");
+      $self->{abs_images} = $images;
+      $self->{abs_images} ||= [];
+      debug("DEBUG is ON");
    }
    wantarray ? @{$self->{abs_images}} : $self->{abs_images};
 }
@@ -62,6 +66,9 @@ sub _length              { length $_[0]->_text               || 0 } # will call 
 sub _text_from_image {
    my($self,$abs) = @_;
    unless( $self->{_text_from_image}->{$abs} ){
+      
+      #   -f $abs ?       print STDERR" ===== $abs is on disk \n" : confess("No $abs on disk");
+
       require Image::OCR::Tesseract;
       my $txt = Image::OCR::Tesseract::get_ocr($abs);
       $self->{_text_from_image}->{$abs} = $txt;
@@ -101,7 +108,7 @@ sub text {
 
 # CAN BE REUSED ................. :
 
-sub debug { $DEBUG ? print STDERR " DEBUG @_\n" : 1 }
+sub debug { $DEBUG ? print STDERR __PACKAGE__." DEBUG @_\n" : 1 }
 
 sub _check_pdf {
    my $abs_pdf = shift;

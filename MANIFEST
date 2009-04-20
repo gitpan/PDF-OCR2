@@ -1,9 +1,13 @@
+Changes
 MANIFEST
 Makefile.PL
 lib/PDF/OCR2.pm
 lib/PDF/OCR2/Page.pm
 t/88_PDF-OCR2-Page.t
 t/89_PDF-OCR2.t
+t/90_problemdocs.pl
+t/91_long_nguyen_problemfile.t
+t/94_hdreceipt.t
 t/99_cleanup.t
 t/leodocs/SFX6D.pdf
 t/leodocs/blackhawk-receipt.pdf
@@ -14,4 +18,6 @@ t/leodocs/led.pdf
 t/leodocs/magscans.pdf
 t/leodocs/paycheck.pdf
 t/leodocs/tuition.pdf
+t/problemdocs/long_nguyen_problemfile.pdf
+t/problemdocs/problemdyerfile.pdf
 META.yml                                 Module meta-data (added by MakeMaker)

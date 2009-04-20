@@ -2,13 +2,13 @@ package PDF::OCR2;
 use strict;
 use PDF::OCR2::Page;
 use LEOCHARRE::Class2;
-use LEOCHARRE::DEBUG;
 use Carp;
 use vars qw($VERSION $DEBUG @TRASH $CHECK_PDF $NO_TRASH_CLEANUP);
 __PACKAGE__->make_accessor_setget( 'abs_path', );
 __PACKAGE__->make_count_for( '_abs_bursts' );
-$VERSION = sprintf "%d.%02d", q$Revision: 1.9 $ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.10 $ =~ /(\d+)/g;
 
+sub debug { $DEBUG or return 1; print STDERR  __PACKAGE__." DEBUG : @_\n"; 1 }
 
 sub new {
    my($class,$arg) = @_;
@@ -47,9 +47,12 @@ sub _page { # return page object
    
    unless( $self->{page}->{$pagenum} ){
       debug("instancing page object page $pagenum");
-      my $abs = $self->_abs_bursts->[($pagenum - 1 )] or croak("No such page num: $pagenum");
+      my $abs = $self->_abs_bursts->[($pagenum - 1 )] 
+         or croak("No such page num: $pagenum");
       debug($abs);
-      my $o = PDF::OCR2::Page->new({ abs_pdf => $abs }) or die;
+      my $o = 
+         PDF::OCR2::Page->new({ abs_pdf => $abs }) 
+         or die("Could not instance PDF::OCR2::Page for $abs");
       $self->{page}->{$pagenum} = $o;
    }
    return  $self->{page}->{$pagenum};
@@ -112,7 +115,6 @@ This is such a massive breakdown of code hierachy and interdependency, and such 
 interface, that this made more sense. 
 PDF::OCR was ok. But it was messy and really, this is a lot better.
 
-
 =head1 METHODS
 
 =head2 new()
@@ -129,7 +131,18 @@ In list context, returns text of pages one per element.
 
 This only works on posix.
 
-=head1 BUGS
+=head1 ERRORS
+
+If you have errors with PDF::API2 saying the pdf is corrupt, likely via PDF::Burst..
+Then try this:
+
+   use PDF::OCR2;
+
+   PDF::Burst::BURST_METHOD = 'CAM_PDF';
+   
+   # and then...
+   my $pdf = PDF::OCR2->new('./pathtofile.pdf');
+   print $pdf->text;
 
 =head1 CRIT AND SUGGESTIONS
 
@@ -137,28 +150,43 @@ The AUTHOR is open to any suggestions and requests.
 
 =head1 SEE ALSO
 
-CAM::PDF
-PDF::API2
-PDF::GetImages
-PDF::Burst
-PDF::OCR2::Page
+L<CAM::PDF>
+L<PDF::API2>
+L<PDF::GetImages>
+L<PDF::Burst>
+L<PDF::OCR2::Page>
 
 =head1 REPLACES
 
-PDF::OCR - deprecated
+L<PDF::OCR> - deprecated by this module.
 
 =head1 AUTHOR
 
 Leo Charre leocharre at cpan dot org
 
+=head1 THANKS
+
+=over 4
+
+=item Long Nguyen
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (c) 2009 Leo Charre. All rights reserved.
+
+=head1 LICENSE
+
+This package is free software; you can redistribute it and/or modify it under the same terms as Perl itself, i.e., under the terms of the "Artistic License" or the "GNU General Public License".
+
+=head1 DISCLAIMER
+
+This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the "GNU General Public License" for more details.
+
 =cut
-
-
-
-
-
-
-
 
 
 
