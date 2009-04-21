@@ -1,30 +1,23 @@
---- #YAML:1.0
-name:               PDF-OCR2
-version:            1.12
-abstract:           ~
-author:  []
-license:            unknown
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         PDF-OCR2
+version:      1.13
+version_from: lib/PDF/OCR2.pm
+installdirs:  site
 requires:
-    CAM::PDF:             1.21
-    Carp:                 1.04
-    Cwd:                  3.12
-    Image::OCR::Tesseract:  1.14
-    LEOCHARRE::Class2:    1.11
-    LEOCHARRE::DEBUG:     1.11
-    LEOCHARRE::Dir:       1.02
-    PDF::API2:            2.015
-    PDF::Burst:           1.10
-    PDF::GetImages:       1.01
-    Smart::Comments:      1.0.2
-    Test::Simple:         0.8
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.48
-meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+    CAM::PDF:                      1.50
+    Carp:                          1
+    Cwd:                           3
+    File::PathInfo::Ext:           1.27
+    Image::OCR::Tesseract:         1.20
+    LEOCHARRE::Class2:             1.13
+    LEOCHARRE::CLI2:               1.04
+    LEOCHARRE::Dir:                1.06
+    PDF::API2:                     2.015
+    PDF::Burst:                    1.10
+    PDF::GetImages:                1.10
+    Smart::Comments:               1
+    Test::Simple:                  0
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.30

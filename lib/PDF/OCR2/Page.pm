@@ -2,12 +2,12 @@ package PDF::OCR2::Page;
 use strict;
 use vars qw($VERSION $DEBUG @TRASH $CHECK_PDF $NO_TRASH_CLEANUP);
 use LEOCHARRE::Class2;
-__PACKAGE__->make_constructor_init;
+#__PACKAGE__->make_constructor_init;
 __PACKAGE__->make_accessor_setget('errstr');
 __PACKAGE__->make_count_for('abs_images');
 __PACKAGE__->make_accessor_setget_ondisk_file( 'abs_pdf' );
 use Carp;
-$VERSION = sprintf "%d.%02d", q$Revision: 1.10 $ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.11 $ =~ /(\d+)/g;
 
 # so it will crash if no abs pdf is passed, or is not on disk
 sub init { 
@@ -19,6 +19,20 @@ sub init {
 
 }
 
+sub new {
+   my($class,$self) = (shift,shift);
+   $self||={};
+   bless $self, $class;
+
+
+   if ($self->{abs_pdf}){
+      -f $self->{abs_pdf}
+         or carp("Not on disk: $self->{abs_pdf}")
+         and return;
+   }
+   $self->init();
+   return $self;
+}
 
 
 sub abs_images {
@@ -29,7 +43,8 @@ sub abs_images {
       debug("calling PDF::GetImages for '$abs'.. ");
       require PDF::GetImages;
       my $images = PDF::GetImages::pdfimages($abs);
-      defined $images or $self->errsrt("PDF::GetImages::pdfimages($abs) does not return.");
+
+      defined $images or $self->errstr("PDF::GetImages::pdfimages($abs) does not return.");
       scalar @$images or $self->errstr("PDF::GetImages::pdfimages($abs) does not return values.. no images?");
       $self->{abs_images} = $images;
       $self->{abs_images} ||= [];
@@ -109,8 +124,9 @@ sub debug { $DEBUG ? print STDERR __PACKAGE__." DEBUG @_\n" : 1 }
 
 sub _check_pdf {
    my $abs_pdf = shift;
+   -f $abs_pdf or warn("Not on disk: $abs_pdf") and return 0;
    require PDF::API2;
-	eval { PDF::API2->open($abs_pdf) } || 0;
+	eval { PDF::API2->open($abs_pdf) } ? 1 : 0;
 }
 
 
@@ -172,8 +188,11 @@ PDF::OCR2::Page
 Extract a pdf page document's text, from inside the document and if there are images, from the images via
 tesseract ocr.
 
+Mostly meant to be used by PDF::OCR2.
 
 =head1 METHODS
+
+If you pass abs_path argument to constructor, and the file is not on disk, returns undef.
 
 =head2 new()
 
@@ -212,14 +231,27 @@ Debug on
 
    $PDF::OCR2::Page::DEBUG = 0;
 
+=head1 SEE ALSO
 
-
-
+L<PDF::OCR2> - parent package.
 
 =head1 AUTHOR
 
 Leo Charre leocharre at cpan dot org
 
+=head1 COPYRIGHT
+
+Copyright (c) 2008 Leo Charre. All rights reserved.
+
+=head1 LICENSE
+
+This package is free software; you can redistribute it and/or modify it under the same terms as Perl itself, i.e., under the terms of the "Artistic License" or the "GNU General Public License".
+
+=head1 DISCLAIMER
+
+This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the "GNU General Public License" for more details.
 
 
 

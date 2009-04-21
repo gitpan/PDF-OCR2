@@ -7,10 +7,34 @@ $PDF::OCR2::Page::DEBUG = 1;
 
 $PDF::OCR2::Page::CHECK_PDF = 1;
 
+# -----------------------------------------------------------------------
+ok_part('ONE THAT DOESNT WORK');
+my $bogus = PDF::OCR2::Page->new({ abs_pdf => './blabla' }); # not there
+### $bogus
+ok ! $bogus,'bogus returns none' ;
+
+
+
+
+# -----------------------------------------------------------------------
+ok_part('empty one');
+
+$bogus = PDF::OCR2::Page->new({ abs_pdf => './t/empty_example.pdf' });
+ok $bogus,'can instance empty pdf';
+
+ok( ! eval { $bogus->abs_images } , 'but calling a method bonks out');
+
+
+
+# ---------------------------------------------------------------------
+ok_part("THIS ONE IS THERE");
 
 my $abs_pdf = './t/leodocs/hdreceipt.pdf';
 
 my $i = PDF::OCR2::Page->new( { abs_pdf => $abs_pdf });
+$i->errstr;
+ok 1, 'errstr()';
+
 
 ok $i, 'instanced' or die;
 
@@ -33,6 +57,8 @@ ok $_,$_ for @imgs;
 
 
 
+
+# ---------------------------------------------------------------------
 ok_part('EXTRACTING');
 my $firstimg;
 
@@ -62,17 +88,24 @@ ok $alltext = $i->text, 'text()';
 
 ### @PDF::OCR2::Page::TRASH
 
-ok_part('tuition');
 
+
+# ---------------------------------------------------------------------
+ok_part('tuition');
 $PDF::OCR2::Page::DEBUG = 1;
 
 my $b = PDF::OCR2::Page->new( { abs_pdf => './t/leodocs/tuition.pdf' });
 my $textt= $b->text;
 
-print STDERR "TEXT:\n\n$textt\n";
+#print STDERR "TEXT:\n\n$textt\n";
 
 
 ok( $textt=~/Heights/, "text out has 'Heights'") or die('cant get normal text out?!');
+
+
+
+
+
 
 
 
