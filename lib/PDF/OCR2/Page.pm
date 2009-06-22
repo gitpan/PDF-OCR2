@@ -6,31 +6,27 @@ use LEOCHARRE::Class2;
 __PACKAGE__->make_accessor_setget('errstr');
 __PACKAGE__->make_count_for('abs_images');
 __PACKAGE__->make_accessor_setget_ondisk_file( 'abs_pdf' );
+use PDF::OCR2::Base;
 use Carp;
-$VERSION = sprintf "%d.%02d", q$Revision: 1.11 $ =~ /(\d+)/g;
+use warnings;
+$VERSION = sprintf "%d.%02d", q$Revision: 1.14 $ =~ /(\d+)/g;
 
-# so it will crash if no abs pdf is passed, or is not on disk
-sub init { 
-   my $self = shift;
-   debug('is on');
-   _check_pdf( 
-      $self->abs_pdf or croak('missing abs_pdf arg')
-   ) if $CHECK_PDF;
-
-}
 
 sub new {
-   my($class,$self) = (shift,shift);
-   $self||={};
+   my($class,$arg) = @_;
+   
+   my $self =
+      ('HASH' eq (ref $arg)) ? $arg :
+         $arg ? { abs_pdf => $arg } : {};
+   
    bless $self, $class;
 
-
-   if ($self->{abs_pdf}){
-      -f $self->{abs_pdf}
-         or carp("Not on disk: $self->{abs_pdf}")
-         and return;
+   if (my $arg = $self->{abs_pdf}){      
+      no warnings;
+      $CHECK_PDF and $PDF::OCR2::CHECK_PDF = 1; # hack
+      # this checks the pdf with PDF::API2 if PDF::OCR2::CHECK_PDF or CHECK_PDF are set
+      ( $self->{abs_pdf} = PDF::OCR2::Base::get_abs_pdf($arg) ) or return;
    }
-   $self->init();
    return $self;
 }
 
@@ -122,13 +118,6 @@ sub text {
 
 sub debug { $DEBUG ? print STDERR __PACKAGE__." DEBUG @_\n" : 1 }
 
-sub _check_pdf {
-   my $abs_pdf = shift;
-   -f $abs_pdf or warn("Not on disk: $abs_pdf") and return 0;
-   require PDF::API2;
-	eval { PDF::API2->open($abs_pdf) } ? 1 : 0;
-}
-
 
 sub _cam_pdftotext {
    my($self,$abs) = @_;
@@ -170,88 +159,6 @@ sub DESTROY { unlink @TRASH unless ( $DEBUG or $NO_TRASH_CLEANUP ) }
 
 
 
-
-
-
-
-
-__END__
-
-=pod
-
-=head1 NAME
-
-PDF::OCR2::Page
-
-=head1 DESCRIPTION
-
-Extract a pdf page document's text, from inside the document and if there are images, from the images via
-tesseract ocr.
-
-Mostly meant to be used by PDF::OCR2.
-
-=head1 METHODS
-
-If you pass abs_path argument to constructor, and the file is not on disk, returns undef.
-
-=head2 new()
-
-Arg is hashref. Must have abs_pdf to pdf file.
-If no abs_pdf is provided or it does not exist on disk, throws exception.
-
-=head2 abs_pdf()
-
-Argument is path to pdf representing one page.
-Must be on disk.
-Perl setget method.
-
-=head2 abs_images()
-
-Returns aref of images, returns list in list context.
-Uses PDF::GetImages, slow.
-
-
-
-
-
-
-=head1 CLASS VARIABLES
-
-Defaults shown.
-
-Eval pdf with PDF::API2 for correctness/etc.
-
-   $PDF::OCR2::Page::CHECK_PDF = 0;
-
-Do not clean up trash when DESTROY
-
-   $PDF::OCR2::Page::NO_TRASH_CLEANUP = 0;
-
-Debug on
-
-   $PDF::OCR2::Page::DEBUG = 0;
-
-=head1 SEE ALSO
-
-L<PDF::OCR2> - parent package.
-
-=head1 AUTHOR
-
-Leo Charre leocharre at cpan dot org
-
-=head1 COPYRIGHT
-
-Copyright (c) 2008 Leo Charre. All rights reserved.
-
-=head1 LICENSE
-
-This package is free software; you can redistribute it and/or modify it under the same terms as Perl itself, i.e., under the terms of the "Artistic License" or the "GNU General Public License".
-
-=head1 DISCLAIMER
-
-This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-See the "GNU General Public License" for more details.
 
 
 

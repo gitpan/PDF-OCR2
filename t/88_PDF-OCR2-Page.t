@@ -2,10 +2,12 @@ use Test::Simple 'no_plan';
 use strict;
 use lib './lib';
 use PDF::OCR2::Page;
-use Smart::Comments '###';
+use Cwd;
+#use Smart::Comments '###';
+my $cwd = cwd();
 $PDF::OCR2::Page::DEBUG = 1;
 
-$PDF::OCR2::Page::CHECK_PDF = 1;
+$PDF::OCR2::CHECK_PDF = 1;
 
 # -----------------------------------------------------------------------
 ok_part('ONE THAT DOESNT WORK');
@@ -18,20 +20,40 @@ ok ! $bogus,'bogus returns none' ;
 
 # -----------------------------------------------------------------------
 ok_part('empty one');
-
+$PDF::OCR2::CHECK_PDF = 0;
 $bogus = PDF::OCR2::Page->new({ abs_pdf => './t/empty_example.pdf' });
-ok $bogus,'can instance empty pdf';
+ok $bogus,'can instance empty pdf if CHECK_PDF is off';
+
+$PDF::OCR2::CHECK_PDF = 1;
+$bogus = PDF::OCR2::Page->new({ abs_pdf => './t/empty_example.pdf' });
+ok ! $bogus,'canot instance empty pdf if CHECK_PDF is on';
+
+
 
 ok( ! eval { $bogus->abs_images } , 'but calling a method bonks out');
 
 
+# -----------------------------------------------------------------------
+ok_part('diff instance, via arg not anon hash');
+
+ok( PDF::OCR2::Page->new("$cwd/t/leodocs/hdreceipt.pdf"),
+   'can instance via abs path');
+
+ok( PDF::OCR2::Page->new("./t/leodocs/hdreceipt.pdf"),
+   'can instance via rel path ./t/');
+
+ok( PDF::OCR2::Page->new("t/leodocs/hdreceipt.pdf"),
+   'can instance via rel path t/');
 
 # ---------------------------------------------------------------------
 ok_part("THIS ONE IS THERE");
 
-my $abs_pdf = './t/leodocs/hdreceipt.pdf';
+my $abs_pdf = "$cwd/t/leodocs/hdreceipt.pdf";
 
-my $i = PDF::OCR2::Page->new( { abs_pdf => $abs_pdf });
+-f $abs_pdf or die("not on disk $abs_pdf");
+
+my $i;
+ok( $i = PDF::OCR2::Page->new( { abs_pdf => $abs_pdf }),"instanced $abs_pdf") or die;
 $i->errstr;
 ok 1, 'errstr()';
 
@@ -94,7 +116,7 @@ ok $alltext = $i->text, 'text()';
 ok_part('tuition');
 $PDF::OCR2::Page::DEBUG = 1;
 
-my $b = PDF::OCR2::Page->new( { abs_pdf => './t/leodocs/tuition.pdf' });
+my $b = PDF::OCR2::Page->new( { abs_pdf => "$cwd/t/leodocs/tuition.pdf" });
 my $textt= $b->text;
 
 #print STDERR "TEXT:\n\n$textt\n";

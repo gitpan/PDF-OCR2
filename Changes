@@ -1,3 +1,41 @@
+2009-06-22 14:12  cvs
+
+	* bin/pdfcheck, lib/PDF/OCR2.pod, lib/PDF/OCR2/Base.pm,
+	  t/93_badxref.t, t/99_cleanup.t: A major change here.	This is to
+	  help with pdf files that have bad xref tables.  PDF::OCR2 can
+	  check a pdf with an eval to PDF::API2.  We now check a pdf *by
+	  default*.  Before, the option was there, but the default was to
+	  be off.
+
+	  There is also a flag to attempt to repair the pdf to a temporary
+	  file.  By default it is off.
+
+2009-06-22 10:24  cvs
+
+	* bin/pdfcheck: fixed abs path resolution in pdfcheck
+
+2009-05-19 15:50  cvs
+
+	* lib/PDF/OCR2.pm, lib/PDF/OCR2/Page.pm, t/89_PDF-OCR2.t: made so
+	  if PDF::OCR2::CHECK_PDF flag is on, we try to open with PDF::API2
+	  or return undef
+
+2009-05-19 12:02  cvs
+
+	* bin/: pdfcheck, pdfocrtest: moved pdfocrtest to pdfcheck instead.
+	  This program is useful to check what is wrong in a pdf in
+	  general. I made it so testing for PDF::Burst and PDF::OCR2 is
+	  optional, with the -b flag.  Also , the target file is copied to
+	  a temp directory, that we we dont have residue in the target doc
+	  dir.
+
+2009-04-20 22:42  cvs
+
+	* bin/pdfocrtest, lib/PDF/OCR2.pm,
+	  t/problemdocs/nguyen_doc_396.pdf: added bin/pdfocrtest to help in
+	  updating the module, if you think a file should pass ocr but does
+	  not, use this util to contact the author with the output
+
 2009-04-20 10:46  cvs
 
 	* lib/PDF/OCR2.pm: added documentation, if PDF::API2 fails on  a

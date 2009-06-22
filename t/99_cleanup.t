@@ -12,7 +12,10 @@ unlink @trash;
 
 ok 1, 'cleaned';
 
-`rm -rf ./t/problemdocs/*.txt ./t/problemdocs/*.tif ./t/problemdocs/*_page_*.pdf`;
+`rm -rf ./t/problemdocs/*.txt ./t/problemdocs/*.tif`;
+`rm -rf ./t/problemdocs/*_page_*.???`;
+
+`rm -rf ./t/problemdocs/*repaired_xref_table*`;
 
 
 if( my @trash2 = split( /\n/, `find ./t/leodocs -type f -name "*.pbm"`) ){

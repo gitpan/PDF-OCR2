@@ -1,3 +1,4 @@
+$^O=~/win32|mswin/i and die("OS not supported.\n");
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
@@ -5,19 +6,23 @@ WriteMakefile(
    VERSION_FROM => 'lib/PDF/OCR2.pm',
    
 
-   # gen /usr/bin/pmused by Mon Apr 20 23:05:00 EDT 2009 
+   # gen /usr/bin/pmused by Mon Jun 22 17:58:41 EDT 2009 
    PREREQ_PM => {
-      'CAM::PDF'                          => '1.50',
+      'CAM::PDF'                          => '1.52',
       'Carp'                              => '1',
       'Cwd'                               => '3',
+      'Exporter'                          => '5',
+      'File::Path'                        => '2.07',
       'File::PathInfo::Ext'               => '1.27',
+      'File::Which'                       => '0.05',
       'Image::OCR::Tesseract'             => '1.20',
-      'LEOCHARRE::CLI2'                   => '1.04',
-      'LEOCHARRE::Class2'                 => '1.13',
-      'LEOCHARRE::Dir'                    => '1.06',
+      'LEOCHARRE::CLI2'                   => '1.07',
+      'LEOCHARRE::Class2'                 => '1.19',
+      'LEOCHARRE::Debug'                  => '1.02',
+      'LEOCHARRE::Dir'                    => '1.07',
       'PDF::API2'                         => '2.015',
-      'PDF::Burst'                        => '1.10',
-      'PDF::GetImages'                    => '1.10',
+      'PDF::Burst'                        => '1.19',
+      'PDF::GetImages'                    => '1.17',
       'Smart::Comments'                   => '1',
       'Test::Simple'                      => '0',
    },
@@ -27,7 +32,7 @@ WriteMakefile(
    
    
    
-   EXE_FILES => [qw(bin/pdfocrtest)],
+   EXE_FILES => [qw(bin/pdfcheck)],
 );
 
 
