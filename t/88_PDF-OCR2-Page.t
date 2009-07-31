@@ -3,7 +3,6 @@ use strict;
 use lib './lib';
 use PDF::OCR2::Page;
 use Cwd;
-#use Smart::Comments '###';
 my $cwd = cwd();
 $PDF::OCR2::Page::DEBUG = 1;
 

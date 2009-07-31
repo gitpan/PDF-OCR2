@@ -1,3 +1,16 @@
+2009-07-31 13:42  cvs
+
+	* INSTALL, INSTALL.dev.pod, dev.notes, lib/PDF/OCR2/INSTALL.pod:
+	  Added helpful instructions for installing from scratch.  These
+	  ocr like modules have a lot of depencencies, I believe the
+	  INSTALL file will help a lot.
+
+2009-07-29 14:50  cvs
+
+	* INSTALL, lib/PDF/OCR2/INSTALL.pod: Added useful installation
+	  document.  I've corresponded a lot about how to install this, and
+	  this answers most of any problems people have.
+
 2009-06-22 14:12  cvs
 
 	* bin/pdfcheck, lib/PDF/OCR2.pod, lib/PDF/OCR2/Base.pm,

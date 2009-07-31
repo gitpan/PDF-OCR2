@@ -3,7 +3,6 @@ use strict;
 use lib './lib';
 use PDF::OCR2;
 use LEOCHARRE::Dir 'lsfa';
-#use Smart::Comments '###';
 
 my $short = $ARGV[0] eq '-d' ? 1 : 0;
 

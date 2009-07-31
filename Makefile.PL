@@ -4,9 +4,11 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
    NAME => 'PDF::OCR2',
    VERSION_FROM => 'lib/PDF/OCR2.pm',
+   ABSTRACT_FROM => 'lib/PDF/OCR2.pod',
+   AUTHOR => 'Leo Charre leocharre at cpan dot org',
    
 
-   # gen /usr/bin/pmused by Mon Jun 22 17:58:41 EDT 2009 
+   # gen /usr/bin/pmused by Wed Jun 24 14:36:54 EDT 2009 
    PREREQ_PM => {
       'CAM::PDF'                          => '1.52',
       'Carp'                              => '1',
@@ -23,7 +25,6 @@ WriteMakefile(
       'PDF::API2'                         => '2.015',
       'PDF::Burst'                        => '1.19',
       'PDF::GetImages'                    => '1.17',
-      'Smart::Comments'                   => '1',
       'Test::Simple'                      => '0',
    },
 

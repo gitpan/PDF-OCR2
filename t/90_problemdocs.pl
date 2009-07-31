@@ -3,7 +3,6 @@ use strict;
 use lib './lib';
 use PDF::OCR2;
 use LEOCHARRE::Dir 'lsfa';
-use Smart::Comments '###';
 
 $PDF::OCR2::DEBUG = 1;
 $PDF::OCR2::Page::DEBUG = 1;
