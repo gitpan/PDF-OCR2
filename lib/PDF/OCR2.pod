@@ -181,12 +181,11 @@ Ultimately, they help develop this work.
 
 =item Robert Waters
 
-
 =back
 
 =head1 COPYRIGHT
 
-Copyright (c) 2009 Leo Charre. All rights reserved.
+Copyright (c) 2011 Leo Charre. All rights reserved.
 
 =head1 LICENSE
 

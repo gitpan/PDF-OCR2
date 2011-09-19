@@ -112,16 +112,16 @@ ok $alltext = $i->text, 'text()';
 
 
 # ---------------------------------------------------------------------
-ok_part('tuition');
-$PDF::OCR2::Page::DEBUG = 1;
+#ok_part('tuition');
+#$PDF::OCR2::Page::DEBUG = 1;
 
-my $b = PDF::OCR2::Page->new( { abs_pdf => "$cwd/t/leodocs/tuition.pdf" });
-my $textt= $b->text;
+#my $b = PDF::OCR2::Page->new( { abs_pdf => "$cwd/t/leodocs/tuition.pdf" });
+#my $textt= $b->text;
 
 #print STDERR "TEXT:\n\n$textt\n";
 
 
-ok( $textt=~/Heights/, "text out has 'Heights'") or die('cant get normal text out?!');
+#ok( $textt=~/Heights/, "text out has 'Heights'") or die('cant get normal text out?!');
 
 
 

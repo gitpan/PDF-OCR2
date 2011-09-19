@@ -12,7 +12,6 @@ lib/PDF/OCR2/Page.pm
 lib/PDF/OCR2/Page.pod
 t/88_PDF-OCR2-Page.t
 t/89_PDF-OCR2.t
-t/90_problemdocs.pl
 t/92_PDF-OCR2-Base-Image.t
 t/93_badxref.t
 t/94_hdreceipt.t
@@ -28,5 +27,4 @@ t/leodocs/hdreceipt.pdf
 t/leodocs/led.pdf
 t/leodocs/magscans.pdf
 t/leodocs/paycheck.pdf
-t/leodocs/tuition.pdf
 META.yml                                 Module meta-data (added by MakeMaker)
